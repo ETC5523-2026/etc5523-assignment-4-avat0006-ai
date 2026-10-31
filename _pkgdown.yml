@@ -1,0 +1,42 @@
+url: https://etc5523-2026.github.io/etc5523-assignment-4-avat0006-ai/
+
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#0B5C6B"
+    navbar-bg: "#0B3C49"
+
+navbar:
+  bg: dark
+  structure:
+    left: [intro, reference, articles]
+    right: [github]
+
+reference:
+  - title: Launch the app
+    desc: Start the TB Progress Tracker Shiny app.
+    contents:
+      - run_tb_app
+  - title: Data
+    desc: The WHO TB burden estimates and the End TB milestones.
+    contents:
+      - tb_burden
+      - tb_targets
+  - title: Analysis functions
+    desc: Compare a country's reduction since 2015 with the WHO milestone path.
+    contents:
+      - tb_required_reduction
+      - tb_index
+      - tb_progress_summary
+  - title: Plots, tables and theme
+    desc: The outputs and styling used by the app.
+    contents:
+      - plot_tb_trajectory
+      - plot_tb_peers
+      - tb_status_table
+      - tb_app_theme
+
+articles:
+  - title: Guides
+    contents:
+      - getting-started
