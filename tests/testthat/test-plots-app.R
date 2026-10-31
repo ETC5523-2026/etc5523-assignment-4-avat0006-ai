@@ -55,6 +55,11 @@ test_that("the app is bundled and its server logic works", {
     expect_equal(nrow(summ()), 2L)
     expect_equal(nrow(usable()), 2L)
 
+    # The headline sentence reads cleanly: no stray spaces before punctuation
+    headline_html <- as.character(output$headline$html)
+    expect_match(headline_html, "By 2023, WHO's milestone path needs")
+    expect_false(grepl("\\d , |\\( \\d|% \\)", headline_html))
+
     # No countries chosen -> a friendly validation message, not a crash
     session$setInputs(countries = NULL)
     expect_error(summ(), "Choose at least one country", class = "shiny.silent.error")

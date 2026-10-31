@@ -363,15 +363,31 @@ server <- function(input, output, session) {
         stat_box("Behind", n_behind, "stat-behind"),
         stat_box("Rising", n_rising, "stat-rising")
       ),
+      # Built as one HTML string: separate tag children are rendered on separate
+      # lines, which a browser shows as stray spaces before punctuation.
       p(
         class = "headline-text",
-        "By ", input$year, ", WHO's milestone path needs ",
-        indicator_phrase[[input$indicator]], " to be down ",
-        tags$strong(paste0(needed, "%")), " from 2015. ",
-        "Of the ", nrow(ok), " selected countries with data, ",
-        tags$strong(n_on), " ", if (n_on == 1) "is" else "are", " on track. ",
-        "Largest reduction: ", tags$strong(best$country), " (",
-        sprintf("%.1f%%", best$reduction_pct), ")."
+        HTML(paste0(
+          "By ", input$year, ", WHO's milestone path needs ",
+          indicator_phrase[[input$indicator]], " to be down <strong>",
+          needed, "%</strong> from 2015. Of the ", nrow(ok),
+          " selected ", if (nrow(ok) == 1) "country" else "countries",
+          " with data, <strong>", n_on, "</strong> ",
+          if (n_on == 1) "is" else "are", " on track. ",
+          if (best$reduction_pct > 0) {
+            paste0(
+              "Largest reduction: <strong>", htmltools::htmlEscape(best$country),
+              "</strong> (", sprintf("%.1f%%", best$reduction_pct), ")."
+            )
+          } else {
+            paste0(
+              "None of the selected countries has a lower burden than in ",
+              "2015 (closest: <strong>", htmltools::htmlEscape(best$country),
+              "</strong>, ", sprintf("%+.1f%%", -best$reduction_pct),
+              " compared with 2015)."
+            )
+          }
+        ))
       )
     )
   })
@@ -412,10 +428,13 @@ server <- function(input, output, session) {
     if (length(missing) == 0) return(NULL)
     div(
       class = "weak-note",
-      tags$strong("Not charted: "), paste(missing, collapse = ", "),
-      ". WHO has no 2015 baseline or no ", input$year,
-      " estimate for this indicator (or the 2015 value is zero), so a",
-      " reduction cannot be calculated."
+      HTML(paste0(
+        "<strong>Not charted:</strong> ",
+        htmltools::htmlEscape(paste(missing, collapse = ", ")),
+        ". WHO has no 2015 baseline or no ", input$year,
+        " estimate for this indicator (or the 2015 value is zero), so a",
+        " reduction cannot be calculated."
+      ))
     )
   })
 
