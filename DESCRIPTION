@@ -2,7 +2,7 @@ Package: tbprogress
 Title: Tracking Country Progress Towards the WHO End TB Milestones
 Version: 0.1.0
 Authors@R:
-    person("Amisha", "Vatsa", , "amisha.vatsa@aiesec.net", role = c("aut", "cre"))
+    person("Amisha", "Vatsa", , "avat0006@student.monash.edu", role = c("aut", "cre"))
 Description: Provides World Health Organization (WHO) estimates of
     tuberculosis (TB) incidence and mortality for 215 countries and
     territories from 2000 to 2023, together with the WHO End TB Strategy

@@ -18,7 +18,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Amisha Vatsa \email{amisha.vatsa@aiesec.net}
+\strong{Maintainer}: Amisha Vatsa \email{avat0006@student.monash.edu}
 
 }
 \keyword{internal}
