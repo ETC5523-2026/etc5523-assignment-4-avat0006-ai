@@ -141,3 +141,7 @@ source("data-raw/tb_targets.R")  # builds data/tb_targets.rda
 ## Author
 
 Amisha Vatsa, Monash University, ETC5523 Communicating with Data.
+
+## Generative AI declaration
+
+**Generative AI declaration:** Claude (Anthropic) was used as a learning and editing reference to help clarify concepts, address specific technical questions, and refine draft phrasing. I critically evaluated all AI suggestions, wrote and tested the code, and finalized all text myself. I am fully responsible for the submitted work.
