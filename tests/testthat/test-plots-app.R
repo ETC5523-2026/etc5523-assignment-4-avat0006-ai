@@ -33,6 +33,8 @@ test_that("tb_status_table builds a DT widget", {
   s <- tb_progress_summary(indicator = "incidence", countries = c("Kenya", "India"))
   w <- tb_status_table(s)
   expect_s3_class(w, "datatables")
+  # Missing values are shown as "n/a" rather than left blank
+  expect_match(as.character(w$x$options$columnDefs[[1]]$render), "n/a", fixed = TRUE)
   expect_error(tb_status_table(data.frame(x = 1)), "missing required column")
 })
 
@@ -68,5 +70,8 @@ test_that("the app is bundled and its server logic works", {
     session$setInputs(indicator = "mortality",
                       countries = "Democratic People's Republic of Korea")
     expect_error(usable(), "No estimate is available", class = "shiny.silent.error")
+
+    # ...and the headline stays quiet, so the message is not shown twice
+    expect_false(grepl("stat-strip", paste(as.character(output$headline$html), collapse = "")))
   })
 })

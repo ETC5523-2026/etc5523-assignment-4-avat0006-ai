@@ -105,19 +105,35 @@ tb_status_table <- function(summary) {
     "Gap (pct. points)", "Status"
   )
 
+  # Show missing numbers as "n/a" (not blank) and fix the number of decimals.
+  # Sorting still uses the underlying numbers; missing values sort as empty.
+  num_render <- function(d) {
+    DT::JS(sprintf(
+      "function(data, type, row, meta) {
+         if (data === null || data === 'NA' || data === '') {
+           return type === 'display' ? 'n/a' : null;
+         }
+         if (type !== 'display') { return data; }
+         return Number(data).toLocaleString('en-US', {
+           minimumFractionDigits: %d, maximumFractionDigits: %d
+         });
+       }", d, d
+    ))
+  }
+
   DT::datatable(
     tab,
     rownames = FALSE,
     class = "stripe hover compact",
-    options = list(dom = "t", paging = FALSE, ordering = TRUE, scrollX = TRUE),
+    options = list(
+      dom = "t", paging = FALSE, ordering = TRUE, scrollX = TRUE,
+      columnDefs = list(
+        list(targets = c(2, 3), render = num_render(digits)),
+        list(targets = c(4, 5, 6), render = num_render(1))
+      )
+    ),
     caption = NULL
   ) |>
-    DT::formatRound(c("2015 value", paste(ay, "value")), digits = digits) |>
-    DT::formatRound(
-      c("Reduction since 2015 (%)", paste0("Needed by ", ay, " (%)"),
-        "Gap (pct. points)"),
-      digits = 1
-    ) |>
     DT::formatStyle(
       "Status",
       fontWeight = "bold",

@@ -348,7 +348,10 @@ server <- function(input, output, session) {
 
   # Headline strip ----------------------------------------------------------------
   output$headline <- renderUI({
-    ok <- usable()
+    # If there is nothing to summarise, stay quiet here: the explanatory
+    # message is shown once, in the chart card below, not repeated.
+    ok <- tryCatch(usable(), shiny.silent.error = function(e) NULL)
+    if (is.null(ok)) return(NULL)
     n_on <- sum(ok$status == "On track")
     n_behind <- sum(ok$status == "Behind")
     n_rising <- sum(ok$status == "Rising")
